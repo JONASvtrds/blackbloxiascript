@@ -1,4 +1,5 @@
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("User InputService")
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local AimbotToggleButton = Instance.new("TextButton")
@@ -11,8 +12,8 @@ local UICorner = Instance.new("UICorner")
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-MainFrame.Size = UDim2.new(0, 300, 0, 200)
-MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+MainFrame.Size = UDim2.new(0, 300, 0, 300)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -150)
 
 -- Botão de Aimbot
 AimbotToggleButton.Parent = MainFrame
@@ -26,7 +27,7 @@ UICorner:Clone().Parent = AimbotToggleButton
 FOVToggleButton.Parent = MainFrame
 FOVToggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 FOVToggleButton.Size = UDim2.new(0, 100, 0, 50)
-FOVToggleButton.Position = UDim2.new(0.5, -50, 0.2, 0)
+FOVToggleButton.Position = UDim2.new(0.5, -50, 0.2, 0) -- Aumentar a distância vertical
 FOVToggleButton.Text = "FOV: OFF"
 UICorner:Clone().Parent = FOVToggleButton
 
@@ -34,7 +35,7 @@ UICorner:Clone().Parent = FOVToggleButton
 FOVSlider.Parent = MainFrame
 FOVSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 FOVSlider.Size = UDim2.new(0, 100, 0, 50)
-FOVSlider.Position = UDim2.new(0.5, -50, 0.4, 0)
+FOVSlider.Position = UDim2.new(0.5, -50, 0.4, 0) -- Aumentar a distância vertical
 FOVSlider.Text = "FOV Radius"
 FOVSlider.PlaceholderText = "80"
 UICorner:Clone().Parent = FOVSlider
@@ -79,8 +80,6 @@ CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
--- Carregar o script do aimbot e FOV
-loadstring(game:HttpGet("https://raw.githubusercontent.com/JONASvtrds/blackbloxiascript/refs/heads/main/blackboxiascript"))()
-
--- Exibir a UI
-MainFrame.Visible = true
+-- Função para fechar a UI com a tecla Control
+User InputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode ==
