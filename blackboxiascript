@@ -1,1 +1,86 @@
+local Players = game:GetService("Players")
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local AimbotToggleButton = Instance.new("TextButton")
+local FOVToggleButton = Instance.new("TextButton")
+local FOVSlider = Instance.new("TextBox")
+local CloseButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
 
+-- Configurações da UI
+ScreenGui.Parent = game.CoreGui
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.Size = UDim2.new(0, 300, 0, 200)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+
+-- Botão de Aimbot
+AimbotToggleButton.Parent = MainFrame
+AimbotToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+AimbotToggleButton.Size = UDim2.new(0, 100, 0, 50)
+AimbotToggleButton.Position = UDim2.new(0.5, -50, 0.1, 0)
+AimbotToggleButton.Text = "Aimbot: OFF"
+UICorner:Clone().Parent = AimbotToggleButton
+
+-- Botão de FOV
+FOVToggleButton.Parent = MainFrame
+FOVToggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+FOVToggleButton.Size = UDim2.new(0, 100, 0, 50)
+FOVToggleButton.Position = UDim2.new(0.5, -50, 0.2, 0)
+FOVToggleButton.Text = "FOV: OFF"
+UICorner:Clone().Parent = FOVToggleButton
+
+-- Slider para ajustar o FOV
+FOVSlider.Parent = MainFrame
+FOVSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+FOVSlider.Size = UDim2.new(0, 100, 0, 50)
+FOVSlider.Position = UDim2.new(0.5, -50, 0.4, 0)
+FOVSlider.Text = "FOV Radius"
+FOVSlider.PlaceholderText = "80"
+UICorner:Clone().Parent = FOVSlider
+
+-- Botão de Fechar
+CloseButton.Parent = MainFrame
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.BackgroundTransparency = 1.000
+CloseButton.Position = UDim2.new(0.9, 0, 0, 0)
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Text = "X"
+UICorner:Clone().Parent = CloseButton
+
+-- Funções para Aimbot e FOV
+local aimbotEnabled = false
+local fovEnabled = false
+local fovRadius = 80
+
+AimbotToggleButton.MouseButton1Click:Connect(function()
+    aimbotEnabled = not aimbotEnabled
+    AimbotToggleButton.Text = "Aimbot: " .. (aimbotEnabled and "ON" or "OFF")
+    _G.AimbotEnabled = aimbotEnabled
+end)
+
+FOVToggleButton.MouseButton1Click:Connect(function()
+    fovEnabled = not fovEnabled
+    FOVToggleButton.Text = "FOV: " .. (fovEnabled and "ON" or "OFF")
+    _G.CircleVisible = fovEnabled
+end)
+
+FOVSlider.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        local radius = tonumber(FOVSlider.Text)
+        if radius then
+            fovRadius = radius
+            _G.CircleRadius = fovRadius
+        end
+    end
+end)
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Carregar o script do aimbot e FOV
+loadstring(game:HttpGet("https://raw.githubusercontent.com/JONASvtrds/blackbloxiascript/refs/heads/main/blackboxiascript"))()
+
+-- Exibir a UI
+MainFrame.Visible = true
